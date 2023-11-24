@@ -7,7 +7,7 @@ type Props = {};
 
 const page = (props: Props) => {
   return (
-    <div className="flex flex-col justify-start items-center mx-24 my-10">
+    <div className="flex flex-col justify-start items-center mx-24 my-10 h-screen">
       <span className="text-center font-bold ">
         Selectionner une methode de paiement
       </span>
