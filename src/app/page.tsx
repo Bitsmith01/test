@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import SelectComponent from "../../components/SelectComponent";
 import ToggleContainer from "../../components/ToggleContainer";
@@ -6,15 +6,42 @@ import ToggleContainer from "../../components/ToggleContainer";
 export default function Home() {
   const [isDemoSelected, setIsDemoSelected] = useState(true);
   const [isReelSelected, setIsReelSelected] = useState(false);
-  const [selectedMise, setSelectedMise] = useState("");
-  const [selectedChiffres, setSelectedChiffres] = useState("");
-  const [selectedVitesse, setSelectedVitesse] = useState("");
+  const [selectedMise, setSelectedMise] = useState("100 FCFA");
+  const [selectedChiffres, setSelectedChiffres] = useState(
+    "2  → Gains: Mise * 10%"
+  );
+  const [selectedVitesse, setSelectedVitesse] = useState(
+    "1 chiffre/seconde → - 98% * Gains"
+  );
   const [Nombre, setNombre] = useState("NOMBRE");
   const [ringRotation, setRingRotation] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
   const rotateRing = () => {
     setRingRotation((prevRotation) => prevRotation + 36);
+    setIsAnimating(true);
+
+    setIsCountdownActive(true);
+    startCountdown();
   };
+
+  const startCountdown = () => {
+    setTimeout(() => {
+      if (countdown > 0) {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }
+  
+      if (countdown === 1) {
+        setIsCountdownActive(false);
+        setIsButtonEnabled(true);
+      } else {
+        startCountdown();
+      }
+    }, 1000);
+  };
+  
+  
 
   const handleToggle = (selected: "demo" | "reel") => {
     setIsDemoSelected(selected === "demo");
@@ -23,6 +50,7 @@ export default function Home() {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNombre(event.target.value);
+    setIsButtonEnabled(false);
   };
 
   const calculateGain = () => {
@@ -103,13 +131,37 @@ export default function Home() {
       const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
       const randomNumberString = randomNumber.toString();
       setNombre(randomNumberString);
+      setIsButtonEnabled(false);
     } else {
       console.error("Invalid number of digits");
     }
   };
 
-  
+  const ringSection = Array.from(
+    { length: parseInt(selectedChiffres.split(" ")[0]) },
+    (_, sectionIndex) => (
+      <div
+        key={sectionIndex}
+        className="flex flex-col h-28 overflow-hidden my-10"
+      >
+        {Array.from({ length: 10 }, (_, index) => (
+          <div
+            key={index}
+            className={`ring-digit text-2xl font-bold transform ${
+              isAnimating ? "animate-scrollDigits" : ""
+            }`}
+          >
+            {index}
+          </div>
+        ))}
+      </div>
+    )
+  );
+
   const ringDigits = Array.from({ length: 10 }, (_, digit) => digit);
+
+  const [countdown, setCountdown] = useState(3);
+  const [isCountdownActive, setIsCountdownActive] = useState(false);
 
   return (
     <div className="p-2">
@@ -203,19 +255,35 @@ export default function Home() {
         </span>
         <button
           onClick={rotateRing}
-          className="bg-[#f09d9c] w-[60%] h-10 text-white rounded-md"
+          disabled={isButtonEnabled}
+          className={`${
+            isButtonEnabled ? "bg-[#f09d9c]" : "bg-red-500"
+          } w-[60%] h-10 text-white rounded-md`}
         >
           Faire tourner les anneaux
         </button>
-        <div className=" flex flex-col h-32 overflow-hidden my-10">
-          {ringDigits.map((digit) => (
-            <div
-              key={digit}
-              className="ring-digit text-2xl font-bold transform animate-scrollDigits"
-            >
-              {digit}
-            </div>
-          ))}
+        <div className="flex space-x-5 relative">
+          {/* <span className="h-4 absolute border-2 w-[40px]"></span> */}
+          {ringSection}
+        </div>
+      </div>
+      <div className="flex items-center justify-center">
+        <div className="bg-[#f09d9c] w-[15%] h-10 text-white p-2 rounded-md flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span className="w-6 h-6">{isCountdownActive ? countdown : 3}</span>
         </div>
       </div>
     </div>
