@@ -9,7 +9,21 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        scrollDigits: {
+          '0%': {
+            transform: 'translateY(0%)',
+          },
+          '100%': {
+            transform: 'translateY(-100%)',
+          },
+        },
+      },
+      animation: {
+        scrollDigits: 'scrollDigits 1s linear infinite',
+      },
+    },
   },
   plugins: [],
 }
