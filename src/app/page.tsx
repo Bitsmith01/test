@@ -57,7 +57,7 @@ export default function Home() {
     const mise = parseInt(selectedMise);
     let chiffres = parseInt(selectedChiffres.split(" ")[0]);
     let vitesses = parseInt(selectedVitesse.split(" ")[0]);
-
+  
     switch (chiffres) {
       case 2:
         chiffres = 10 / 100;
@@ -114,12 +114,13 @@ export default function Home() {
       default:
         vitesses = 0;
     }
-
-    const gain = mise * chiffres;
-    const total = gain + gain * vitesses;
-
+  
+    const gain = (mise * chiffres).toFixed(2); // Limit to 2 decimal places
+    const total = (parseFloat(gain) + parseFloat(gain) * vitesses).toFixed(2); // Limit to 2 decimal places
+  
     return total;
   };
+  
 
   const generateNumber = () => {
     const nbredechhiffre = parseInt(selectedChiffres.split(" ")[0]);
@@ -231,7 +232,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <span className="">Gains: {calculateGain()}</span>
+      <span className="">Gains: <span className="font-bold">{calculateGain()} FCFA</span></span>
       <div className="mt-10 relative flex flex-col justify-center items-center">
         <input
           type="text"
@@ -263,7 +264,6 @@ export default function Home() {
           Faire tourner les anneaux
         </button>
         <div className="flex space-x-5 relative">
-          {/* <span className="h-4 absolute border-2 w-[40px]"></span> */}
           {ringSection}
         </div>
       </div>

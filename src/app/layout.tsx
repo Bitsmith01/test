@@ -1,3 +1,4 @@
+// Import necessary modules and components
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -19,11 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="relative">
-        <main>
+        <main className="md:hidden">
           {/* <Sidebar /> */}
           <Navbar />
           {children}
         </main>
+        <div className="hidden w-full h-screen md:flex md:justify-center md:items-center">
+          <span className="text-center font-bold text-4xl">Nous ne sommes disponibles que sur Smartphone!</span>
+        </div>
       </body>
     </html>
   );
