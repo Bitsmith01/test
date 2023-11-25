@@ -15,16 +15,16 @@ const ToggleContainer: React.FC<ToggleContainerProps> = ({
   return (
     <div className="flex justify-center items-center bg-[#284167] w-[50%] rounded-full h-14 p-5 my-4">
       <button
-        className={`w-1/2 flex justify-center items-center font-semibold rounded-full text-sm text-white h-8 ${
-          isDemoSelected ? "bg-white text-[#24272b]" : ""
+        className={`w-1/2 flex justify-center items-center rounded-full text-sm text-white h-8 ${
+          isDemoSelected ? "bg-white text-[#393939]" : ""
         }`}
         onClick={() => handleToggle("demo")}
       >
         Demo
       </button>
       <button
-        className={`w-1/2 flex justify-center items-center font-semibold rounded-full text-sm text-white h-8 ${
-          isReelSelected ? "bg-white text-[#24272b]" : ""
+        className={`w-1/2 flex justify-center items-center rounded-full text-sm text-white h-8 ${
+          isReelSelected ? "bg-white text-[#393939]" : ""
         }`}
         onClick={() => handleToggle("reel")}
       >

@@ -14,38 +14,40 @@ export default function Home() {
     "1 chiffre/seconde → - 98% * Gains"
   );
   const [Nombre, setNombre] = useState("NOMBRE");
-  const [ringRotation, setRingRotation] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
   const rotateRing = () => {
-    setRingRotation((prevRotation) => prevRotation + 36);
     setIsAnimating(true);
-
     setIsCountdownActive(true);
     startCountdown();
   };
 
   const startCountdown = () => {
     setTimeout(() => {
-      if (countdown > 0) {
+      if (countdown > 0 && countdown <= 3) {
         setCountdown((prevCountdown) => prevCountdown - 1);
       }
   
       if (countdown === 1) {
         setIsCountdownActive(false);
         setIsButtonEnabled(true);
-      } else {
+      } else if (countdown > 1) {
         startCountdown();
       }
     }, 1000);
   };
   
   
+  
 
   const handleToggle = (selected: "demo" | "reel") => {
     setIsDemoSelected(selected === "demo");
     setIsReelSelected(selected === "reel");
+    console.log(isDemoSelected);
+    console.log(isReelSelected);
+    
+    
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,8 +117,8 @@ export default function Home() {
         vitesses = 0;
     }
   
-    const gain = (mise * chiffres).toFixed(2); // Limit to 2 decimal places
-    const total = (parseFloat(gain) + parseFloat(gain) * vitesses).toFixed(2); // Limit to 2 decimal places
+    const gain = (mise * chiffres).toFixed(2); 
+    const total = (parseFloat(gain) + parseFloat(gain) * vitesses).toFixed(2); 
   
     return total;
   };
